@@ -3,7 +3,7 @@
 # . ./grid.sh --source_only
 # . ./move.sh --source_only
 
-# new(row, column, level) {
+# new(row_number, column_number, level) {
 	# grid.generate_grid()
 	# grid.print_grid()
 	# continue()
