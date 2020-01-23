@@ -12,7 +12,10 @@
 # continue() {
 	# grid.generate_grid()
 	# grid.print_grid()
-	# move.next_move()
+	# move.next_move(move)
+
+	# How to delegate moves? (add flag vs.
+	# uncover)
 # }
 
 # lose() {

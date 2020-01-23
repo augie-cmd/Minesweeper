@@ -23,11 +23,10 @@
 # Place mines, record locations. Generate row arrays and
 # store row arrays inside master array.
 # 0's fill other positions.
-# Scan through arrays and replace 0 with 1 if position is
+# Scan through arrays and replace 0 add 1 if position is
 # adjacent to mine. X symbolizes a mine.
-# Note: Scope is limited to using 1, for now. (As to say, if two
-# mines are next to each other, the overlapping flags
-# will only say 1 instead of 2.)
+# Sign will increment by 1; sign surrounded by multiple
+# mines will display correct number.
 # Example process:
 
 #   1 2 3 4
