@@ -3,38 +3,57 @@
 # . ./grid.sh --source_only
 # . ./move.sh --source_only
 
+## Responds to game's kickoff by generating
+## a new grid, printing the grid to the screen,
+## and calling continue(...) moving the game into
+## the next state.
 # new(row_number, column_number, level) {
-	# grid.generate_grid()
+	# current_grid=grid.generate_grid()
 	# grid.print_grid()
-	# continue()
+	# continue(current_grid)
 # }
 
-# continue() {
-	# grid.generate_grid()
-	# grid.print_grid()
-	# move.next_move(move)
+# continue(current_grid) {
+	# move.next_move()
 
 	# How to delegate moves? (add flag vs.
 	# uncover)
 # }
 
+## Checks if game is lost. (Was a mine
+## uncovered?)
 # lose() {
-	# echo "You've activated a mine. Game over."
-	# play_again()
+	## ADD: Check logic.
+
+	## if game is lost:
+		# echo "You've activated a mine. Game over."
+		# play_again()
+	## else
+		## return ["false"]
+	## if
 # }
 
+
+## Checks if game is won. (Are all the mines
+## discovered?)
 # win() {
-	# echo "Congratulations. Your field is safe."
-	# play_again()
+	## ADD: Check logic.
+
+	## if game is won:
+		# echo "Congratulations. Your field is safe."
+		# play_again()
+	## else
+		## return ["false"]
+	## fi
 # }
 
 # play_again() {
 	# echo "War is hell."
-        # echo "Play again? (y/n)"
-        # read response
+    # echo "Play again? (y/n)"
+    # read response
 
         # if[ "$response" = y ]; then
-                # minesweeper.sh
+        ## minesweeper.sh; ADD: 'Clear' stack?
         # else
                 # SIGINT OR SIGKILL process
         # fi

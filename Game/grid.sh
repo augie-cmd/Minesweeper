@@ -2,7 +2,9 @@
 
 # Note: Scope issues.
 
+## Handles creating a new grid.
 # generate_grid(row_number, column_number, level) {
+	## ADD: grid_array readonly
 	# declare -a grid_array=()
 	# declare -i mine_number
 	# 
@@ -18,6 +20,28 @@
 			# touching sides. Arrays above and below
 			# will need to be compared.
 		# done
+# }
+
+## The grid printed to the screen will be
+## different than the master grid generated.
+## The printed grid will 'hid' covered locations,
+## display flags on covered locations, and display
+## a number on top of uncovered locations.
+# generate_print_grid(row_number, column_number) {
+	## Will use same data structure as generate_grid(...),
+	## but will contain the display grid.
+# }
+
+# add_flag_to_print_grid(row, column, update) {
+	## Add red X to position.
+# }
+
+# uncover_location_on_print_grid() {
+	## if location's number is above 0,
+	## just uncover location in printed grid.
+
+	## if location's number is 0,
+	## scan
 # }
 
 # Place mines, record locations. Generate row arrays and
