@@ -3,11 +3,16 @@
 # Note: Scope issues.
 
 ## Handles creating a new grid.
-# generate_grid(row_number, column_number, level) {
-	## ADD: grid_array readonly
-	# declare -a grid_array=()
-	# declare -i mine_number
-	# 
+generate_grid() {
+	## ADD: input check
+	readonly row_number=$1
+	readonly column_number=$2
+	readonly level=$3
+
+	## ADD: grid_array readonly (after populated)
+	readonly -a grid_array
+
+	calculate_number_of_mines
 
 	# for ((counter=1; counter<=$row_number; counter++))
 		# do
@@ -20,7 +25,32 @@
 			# touching sides. Arrays above and below
 			# will need to be compared.
 		# done
-# }
+}
+
+
+
+
+## NEW
+calculate_number_of_mines() {
+	declare -i number_of_mines
+
+	# Number of mines are based on row_number,
+	# column_number, and level.
+	total_grid_locations=$(( row_number * column_number ))
+
+	# NOTE: Update to CASE statement later.
+	# FIX: Due to bash's floating point, the ratio needs a
+	# different solution.
+	if [ "$level" = 1 ]; then
+		number_of_mines=$((total_grid_locations / 3))
+	elif [ "$level" = 2 ]; then
+		number_of_mines=$((total_grid_locations / (5/2)))
+	elif [ "$level" = 3 ]; then
+		number_of_mines=$((total_grid_locations / 2))
+	fi
+}
+
+## NEW
 
 ## The grid printed to the screen will be
 ## different than the master grid generated.

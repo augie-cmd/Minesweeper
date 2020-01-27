@@ -43,6 +43,8 @@
 		# echo "Congratulations. Your field is safe."
 		# play_again()
 	## else
+		## NOTE: bash returns function status.
+		## Change this.
 		## return ["false"]
 	## fi
 # }
