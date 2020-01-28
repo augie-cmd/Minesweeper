@@ -1,7 +1,5 @@
 #! /bin/bash
 
-# Note: Scope issues.
-
 ## Handles creating a new grid.
 generate_grid() {
 	## ADD: input check
@@ -27,10 +25,6 @@ generate_grid() {
 		# done
 }
 
-
-
-
-## NEW
 calculate_number_of_mines() {
 	declare -i number_of_mines
 
@@ -42,7 +36,12 @@ calculate_number_of_mines() {
 	# FIX: Due to bash's floating point, the ratio needs a
 	# different solution.
 	if [ "$level" = 1 ]; then
-		number_of_mines=$((total_grid_locations / 3))
+		# number_of_mines=$((total_grid_locations / 3))
+		# number_of_mines=$(bc <<< "$total_grid_locations / 3")
+		number_of_mines=$(echo "scale=2;$total_grid_locations/3" | bc)
+
+		echo ${number_of_mines}
+
 	elif [ "$level" = 2 ]; then
 		number_of_mines=$((total_grid_locations / (5/2)))
 	elif [ "$level" = 3 ]; then
@@ -50,7 +49,7 @@ calculate_number_of_mines() {
 	fi
 }
 
-## NEW
+generate_grid "8" "4" "1"
 
 ## The grid printed to the screen will be
 ## different than the master grid generated.
