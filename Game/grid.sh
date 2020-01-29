@@ -31,14 +31,13 @@ calculate_number_of_mines() {
 	# Number of mines are based on row_number,
 	# column_number, and level.
 	total_grid_locations=$(( row_number * column_number ))
+	# total_grid_locations=$(bc <<< row_number * column_number)
 
 	# NOTE: Update to CASE statement later.
 	# FIX: Due to bash's floating point, the ratio needs a
 	# different solution.
 	if [ "$level" = 1 ]; then
-		# number_of_mines=$((total_grid_locations / 3))
-		# number_of_mines=$(bc <<< "$total_grid_locations / 3")
-		number_of_mines=$(echo "scale=2;$total_grid_locations/3" | bc)
+		number_of_mines=$(bc <<< "scale=2; $total_grid_locations*0.10")
 
 		echo ${number_of_mines}
 
