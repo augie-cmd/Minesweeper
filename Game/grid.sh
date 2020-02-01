@@ -14,16 +14,8 @@ generate_grid() {
 
 	for ((counter=0; counter<$row_number; counter++))
 	do
-		# Generate current_row_array
-		# declare -a row_array_$counter # Incorrect
-		# https://stackoverflow.com/questions/16553089/dynamic-variable-names-in-bash
-
-		# (${!foo@})
-		echo "${!row_array}"
-		# Populate current_row_array
-
-		# add current_row_array to grid_array
-		# grid_array["$counter"]= ## current_row_array
+		# http://tldp.org/LDP/abs/html/arrays.html
+		# "Example 27-17"
 	done
 }
 
@@ -102,3 +94,4 @@ calculate_number_of_mines() {
 # (3,1): (2+1, 2-1)
 # (3,2): (2+1, 2-0)
 # (3,3): (2+1, 2+1)
+It 
