@@ -7,21 +7,24 @@ generate_grid() {
 	readonly column_number=$2
 	readonly level=$3
 
-	## ADD: grid_array readonly (after populated)
-	readonly -a grid_array
+	## ADD: grid_array readonly, if possible (after populated)
+	declare -a grid_array
 
 	calculate_number_of_mines
 
-	# for ((counter=1; counter<=$row_number; counter++))
-		# do
-			# Populate the array.
+	for ((counter=0; counter<$row_number; counter++))
+	do
+		# Generate current_row_array
+		# declare -a row_array_$counter # Incorrect
+		# https://stackoverflow.com/questions/16553089/dynamic-variable-names-in-bash
 
-			# How will mines be placed?
+		# (${!foo@})
+		echo "${!row_array}"
+		# Populate current_row_array
 
-			# Next to mines, number placed on all
-			# touching sides. Arrays above and below
-			# will need to be compared.
-		# done
+		# add current_row_array to grid_array
+		# grid_array["$counter"]= ## current_row_array
+	done
 }
 
 calculate_number_of_mines() {
@@ -40,6 +43,14 @@ calculate_number_of_mines() {
 		number_of_mines=`echo "$total_grid_locations*0.30" | bc`
 	fi
 }
+
+# piece_placement {
+		# How will mines be placed?
+
+		# Next to mines, number placed on all
+		# touching sides. Arrays above and below
+		# will need to be compared.
+# }
 
 ## The grid printed to the screen will be
 ## different than the master grid generated.
