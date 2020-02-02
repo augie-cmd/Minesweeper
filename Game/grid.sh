@@ -1,8 +1,9 @@
 #! /bin/bash
 
 ## Handles creating a new grid.
+# NOTE: Address dependence on gobal variables.
 generate_grid() {
-	## ADD: input check
+	## ADD: Input check
 	readonly row_number=$1
 	readonly column_number=$2
 	readonly level=$3
@@ -12,11 +13,16 @@ generate_grid() {
 
 	calculate_number_of_mines
 
-	for ((counter=0; counter<$row_number; counter++))
-	do
-		# http://tldp.org/LDP/abs/html/arrays.html
-		# "Example 27-17"
-	done
+	assign_mine_location
+
+	# Update: two-dimentional array, will use strings
+	# for now.
+	# http://tldp.org/LDP/abs/html/arrays.html
+	# "Example 27-17"
+
+	# for ((counter=0; counter<$row_number; counter++))
+	# do
+	# done
 }
 
 calculate_number_of_mines() {
@@ -26,23 +32,44 @@ calculate_number_of_mines() {
 	total_grid_locations=$(( row_number * column_number ))
 
 	# NOTE: Update to CASE statement later.
-	# ADD: scale; not currently working.
+	# ADD: Arithmetic helper function.
 	if [ "$level" = 1 ]; then
-		number_of_mines=`echo "$total_grid_locations*0.1" | bc`
+		local number_of_mines_float=`echo "$total_grid_locations*0.1" | bc`
 	elif [ "$level" = 2 ]; then
-		number_of_mines=`echo "$total_grid_locations*0.20" | bc`
+		local number_of_mines_float=`echo "$total_grid_locations*0.20" | bc`
 	elif [ "$level" = 3 ]; then
-		number_of_mines=`echo "$total_grid_locations*0.30" | bc`
+		local number_of_mines_float=`echo "$total_grid_locations*0.30" | bc`
 	fi
+
+	number_of_mines=${number_of_mines_float%.*}
 }
 
-# piece_placement {
-		# How will mines be placed?
+assign_mine_location() {
+	# mine_location_array will contain the coordinates
+	# of the mines. Using string separated by comma to
+	# record location for now.
 
-		# Next to mines, number placed on all
-		# touching sides. Arrays above and below
-		# will need to be compared.
-# }
+	declare -a mine_location_array
+
+	for ((counter=0; counter<$number_of_mines; counter++))
+	do
+		local random_number_row=$RANDOM
+		# ADD: Check if row is still available, retrieve
+		# new random number if not available
+		local random_number_column=$RANDOM
+		# ADD: Check if column is still available, retrieve
+		# new random number if not available
+
+		local random_row=$(( random_number_row %= row_number))
+		local random_column=$(( random_number_column %= column_number))
+
+		mine_location="${random_row},${random_column}"
+
+		mine_location_array[$counter]=$mine_location
+	done
+}
+
+generate_grid "10" "15" "1"
 
 ## The grid printed to the screen will be
 ## different than the master grid generated.
@@ -94,4 +121,3 @@ calculate_number_of_mines() {
 # (3,1): (2+1, 2-1)
 # (3,2): (2+1, 2-0)
 # (3,3): (2+1, 2+1)
-It 
