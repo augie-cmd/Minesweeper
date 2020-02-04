@@ -15,12 +15,14 @@ generate_grid() {
 
 	assign_mine_location
 
+	assign_flag_location
+
 	# Update: two-dimentional array, will use strings
 	# for now.
 	# http://tldp.org/LDP/abs/html/arrays.html
 	# "Example 27-17"
 
-	# for ((counter=0; counter<$row_number; counter++))
+	# for ((gg_counter=0; gg_counter<$row_number; gg_counter++))
 	# do
 	# done
 }
@@ -49,9 +51,14 @@ assign_mine_location() {
 	# of the mines. Using string separated by comma to
 	# record location for now.
 
-	declare -a mine_location_array
+	# declare -a mine_location_array ## Causes mine_location_array
+	# to be local. Adding -g works but also raises invalid option error.
+	# Creating mine_location_array w/o declare so assign_flag_location()
+	# can access it for now.
 
-	for ((counter=0; counter<$number_of_mines; counter++))
+	mine_location_array=()
+
+	for ((aml_counter=0; aml_counter<$number_of_mines; aml_counter++))
 	do
 		local random_number_row=$RANDOM
 		# ADD: Check if row is still available, retrieve
@@ -65,7 +72,51 @@ assign_mine_location() {
 
 		mine_location="${random_row},${random_column}"
 
-		mine_location_array[$counter]=$mine_location
+		mine_location_array[$aml_counter]=$mine_location
+	done
+}
+
+assign_flag_location() {
+	# Flag location is dependent on mine location.
+	local current_mine_location_array=()
+	flag_location_array=()
+
+	# FIX: Nonexistent locations may be added.
+	for ((afl_counter=0; afl_counter<${#mine_location_array[@]}; afl_counter++))
+	do
+		local current_mine_location=${mine_location_array[$afl_counter]}
+		# echo "$current_mine_location"
+
+		# Split mine coordinate into row and column and push into
+		# array.
+		IFS=',' read -ra current_mine_location_array <<< "$current_mine_location"
+
+		for((fl_counter=0; fl_counter<8; fl_counter++))
+		do
+			# current_mine_location_array[0]-1
+			# current_mine_location_array[1]-1
+
+			# current_mine_location_array[0]-1
+			# current_mine_location_array[1]
+
+			# current_mine_location_array[0]-1
+			# current_mine_location_array[1]+1
+
+			# current_mine_location_array[0]
+			# current_mine_location_array[1]-1
+
+			# current_mine_location_array[0]
+			# current_mine_location_array[1]+1
+
+			# current_mine_location_array[0]+1
+			# current_mine_location_array[1]-1
+
+			# current_mine_location_array[0]+1
+			# current_mine_location_array[1]
+
+			# current_mine_location_array[0]+1
+			# current_mine_location_array[1]+1
+		done
 	done
 }
 
