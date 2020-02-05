@@ -91,32 +91,16 @@ assign_flag_location() {
 		# array.
 		IFS=',' read -ra current_mine_location_array <<< "$current_mine_location"
 
-		for((fl_counter=0; fl_counter<8; fl_counter++))
-		do
-			# current_mine_location_array[0]-1
-			# current_mine_location_array[1]-1
+		# PROOF OF CONCEPT: Flag positions are calculated.
 
-			# current_mine_location_array[0]-1
-			# current_mine_location_array[1]
-
-			# current_mine_location_array[0]-1
-			# current_mine_location_array[1]+1
-
-			# current_mine_location_array[0]
-			# current_mine_location_array[1]-1
-
-			# current_mine_location_array[0]
-			# current_mine_location_array[1]+1
-
-			# current_mine_location_array[0]+1
-			# current_mine_location_array[1]-1
-
-			# current_mine_location_array[0]+1
-			# current_mine_location_array[1]
-
-			# current_mine_location_array[0]+1
-			# current_mine_location_array[1]+1
-		done
+		flag_location_array+=",$((current_mine_location_array[0]-1)),$((current_mine_location_array[1]-1)),"
+		flag_location_array+=",$((current_mine_location_array[0]-1)),$((current_mine_location_array[1])),"
+		flag_location_array+=",$((current_mine_location_array[0]-1)),$((current_mine_location_array[1]+1)),"
+		flag_location_array+=",$((current_mine_location_array[0])),$((current_mine_location_array[1]-1)),"
+		flag_location_array+=",$((current_mine_location_array[0])),$((current_mine_location_array[1]+1)),"
+		flag_location_array+=",$((current_mine_location_array[0]+1)),$((current_mine_location_array[1]-1)),"
+		flag_location_array+=",$((current_mine_location_array[0]+1)),$((current_mine_location_array[1])),"
+		flag_location_array+=",$((current_mine_location_array[0]+1)),$((current_mine_location_array[1]+1)),"
 	done
 }
 
