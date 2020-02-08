@@ -90,18 +90,23 @@ assign_flag_location() {
 		# Split mine coordinate into row and column and push into
 		# array.
 		IFS=',' read -ra current_mine_location_array <<< "$current_mine_location"
+		location_x=current_mine_location_array[0]
+		location_y=current_mine_location_array[1]
 
 		# PROOF OF CONCEPT: Flag positions are calculated.
 
-		flag_location_array+=",$((current_mine_location_array[0]-1)),$((current_mine_location_array[1]-1)),"
-		flag_location_array+=",$((current_mine_location_array[0]-1)),$((current_mine_location_array[1])),"
-		flag_location_array+=",$((current_mine_location_array[0]-1)),$((current_mine_location_array[1]+1)),"
-		flag_location_array+=",$((current_mine_location_array[0])),$((current_mine_location_array[1]-1)),"
-		flag_location_array+=",$((current_mine_location_array[0])),$((current_mine_location_array[1]+1)),"
-		flag_location_array+=",$((current_mine_location_array[0]+1)),$((current_mine_location_array[1]-1)),"
-		flag_location_array+=",$((current_mine_location_array[0]+1)),$((current_mine_location_array[1])),"
-		flag_location_array+=",$((current_mine_location_array[0]+1)),$((current_mine_location_array[1]+1)),"
+		flag_location_array+=",$((location_x-1)),$((location_y-1)),"
+		flag_location_array+=",$((location_x-1)),$((location_y)),"
+		flag_location_array+=",$((location_x-1)),$((location_y+1)),"
+		flag_location_array+=",$((location_x)),$((location_y-1)),"
+		flag_location_array+=",$((location_x)),$((location_y+1)),"
+		flag_location_array+=",$((location_x+1)),$((location_y-1)),"
+		flag_location_array+=",$((location_x+1)),$((location_y)),"
+		flag_location_array+=",$((location_x+1)),$((location_y+1)),"
 	done
+
+	echo "${mine_location_array[@]}"
+	echo "${flag_location_array[@]}"
 }
 
 generate_grid "10" "15" "1"
