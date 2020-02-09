@@ -1,7 +1,7 @@
 #! /bin/bash
+# FIX: Variable scopes
 
-## Handles creating a new grid.
-# NOTE: Address dependence on gobal variables.
+## Handles creating a new grid. Treat as constructor.
 generate_grid() {
 	## ADD: Input check
 	readonly row_number=$1
@@ -79,6 +79,7 @@ assign_mine_location() {
 assign_flag_location() {
 	# Flag location is dependent on mine location.
 	local current_mine_location_array=()
+	local values_array=("-1,-1" "-1,0" "-1,1" "0,-1" "0,1" "1,-1" "1,0" "1,1")
 	flag_location_array=()
 
 	# FIX: Nonexistent locations may be added.
@@ -90,23 +91,26 @@ assign_flag_location() {
 		# Split mine coordinate into row and column and push into
 		# array.
 		IFS=',' read -ra current_mine_location_array <<< "$current_mine_location"
-		location_x=current_mine_location_array[0]
-		location_y=current_mine_location_array[1]
 
-		# PROOF OF CONCEPT: Flag positions are calculated.
+		mine_location_x=current_mine_location_array[0]
+		mine_location_y=current_mine_location_array[1]
 
-		flag_location_array+=",$((location_x-1)),$((location_y-1)),"
-		flag_location_array+=",$((location_x-1)),$((location_y)),"
-		flag_location_array+=",$((location_x-1)),$((location_y+1)),"
-		flag_location_array+=",$((location_x)),$((location_y-1)),"
-		flag_location_array+=",$((location_x)),$((location_y+1)),"
-		flag_location_array+=",$((location_x+1)),$((location_y-1)),"
-		flag_location_array+=",$((location_x+1)),$((location_y)),"
-		flag_location_array+=",$((location_x+1)),$((location_y+1)),"
+		# ADD: Delegate to helper function.
+		for ((va_counter=0; va_counter<${#values_array[@]}; va_counter++))
+		do
+			current_value=${values_array[$va_counter]}
+			IFS=',' read -ra current_value_array <<< "$current_value"
+
+			value_x=current_value_array[0]
+			value_y=current_value_array[1]
+
+			flag_location_x=$((mine_location_x+value_x))
+			flag_location_y=$((mine_location_y+value_y))
+
+			array_index=${#flag_location_array[@]}
+			flag_location_array[$array_index]="${flag_location_x},${flag_location_y}"
+		done
 	done
-
-	echo "${mine_location_array[@]}"
-	echo "${flag_location_array[@]}"
 }
 
 generate_grid "10" "15" "1"
