@@ -1,5 +1,5 @@
 #! /bin/bash
-# FIX: Variable scopes
+# FIX: Scope
 
 ## Handles creating a new grid. Treat as constructor.
 generate_grid() {
@@ -17,14 +17,7 @@ generate_grid() {
 
 	assign_flag_location
 
-	# Update: two-dimentional array, will use strings
-	# for now.
-	# http://tldp.org/LDP/abs/html/arrays.html
-	# "Example 27-17"
-
-	# for ((gg_counter=0; gg_counter<$row_number; gg_counter++))
-	# do
-	# done
+	print_grid
 }
 
 calculate_number_of_mines() {
@@ -113,55 +106,39 @@ assign_flag_location() {
 	done
 }
 
+# Generates the grid that the user will see.
+# Note: During this first pass, I will only focus on creating the
+# first printed grid. (Not updating the grid.)
+print_grid() {
+	print_grid_array=()
+	first_row_string=""
+
+	for ((fr_counter=0; fr_counter<((${row_number}+1)); fr_counter++))
+	do
+		# Resets row_string.
+		row_string=""
+
+		if [[ "$fr_counter" = "0" ]] || [[ "$fr_counter" = "$((row_number+1))" ]]
+		then
+			first_row_string+=" "
+		else
+			first_row_string+="_"
+		fi
+
+		print_grid_array[0]=$first_row_string
+
+		for ((ar_counter=0; ar_counter<=((${row_number}+1)); ar_counter++))
+		do
+			if [[ "$ar_counter" = "0" ]] || [[ "$ar_counter" = "$((row_number+1))" ]] # Losing two "_"
+			then
+				row_string+="|"
+			else
+				row_string+="_"
+			fi
+
+			print_grid_array[$fr_counter]=$row_string
+		done
+	done
+}
+
 generate_grid "10" "15" "1"
-
-## The grid printed to the screen will be
-## different than the master grid generated.
-## The printed grid will 'hid' covered locations,
-## display flags on covered locations, and display
-## a number on top of uncovered locations.
-# generate_print_grid(row_number, column_number) {
-	## Will use same data structure as generate_grid(...),
-	## but will contain the display grid.
-# }
-
-# add_flag_to_print_grid(row, column, update) {
-	## Add red X to position.
-# }
-
-# uncover_location_on_print_grid() {
-	## if location's number is above 0,
-	## just uncover location in printed grid.
-
-	## if location's number is 0,
-	## scan
-# }
-
-# Place mines, record locations. Generate row arrays and
-# store row arrays inside master array.
-# 0's fill other positions.
-# Scan through arrays and replace 0 add 1 if position is
-# adjacent to mine. X symbolizes a mine.
-# Sign will increment by 1; sign surrounded by multiple
-# mines will display correct number.
-# Example process:
-
-#   1 2 3 4
-#   -------
-# 1|1 1 1 0
-# 2|1 X 1 0
-# 3|1 1 1 0
-# 4|0 0 0 0
-
-# Mine Position (2,2)
-
-# (1,1): (2-1, 2-1)
-# (1,2): (2-1, 2-0)
-# (1,3): (2-1, 2+1)
-# -----------------
-# (2,1): (2-0, 2-1)
-# (2,3): (2-0, 2+1)
-# -----------------
-# (3,1): (2+1, 2-1)
-# (3,2): (2+1, 2-0)
-# (3,3): (2+1, 2+1)
