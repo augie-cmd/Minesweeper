@@ -18,6 +18,11 @@ generate_grid() {
 	assign_flag_location
 
 	print_grid
+
+	for ((gg_counter=0; gg_counter<${#print_grid_array[@]}; gg_counter++))
+	do
+		echo "${print_grid_array[gg_counter]}"
+	done
 }
 
 calculate_number_of_mines() {
@@ -122,18 +127,18 @@ print_grid() {
 		then
 			first_row_string+=" "
 		else
-			first_row_string+="_"
+			first_row_string+="_ "
 		fi
 
 		print_grid_array[0]=$first_row_string
 
-		for ((ar_counter=0; ar_counter<=((${row_number}+1)); ar_counter++))
+		for ((ar_counter=0; ar_counter<=${row_number}; ar_counter++))
 		do
-			if [[ "$ar_counter" = "0" ]] || [[ "$ar_counter" = "$((row_number+1))" ]] # Losing two "_"
+			if [[ "$ar_counter" = "0" ]]
 			then
 				row_string+="|"
 			else
-				row_string+="_"
+				row_string+="_|"
 			fi
 
 			print_grid_array[$fr_counter]=$row_string
