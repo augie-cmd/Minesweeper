@@ -1,5 +1,6 @@
 #! /bin/bash
 # FIX: Scope
+# ADD: check for largest grid size: 26 X 26
 
 ## Handles creating a new grid. Treat as constructor.
 generate_grid() {
@@ -115,8 +116,15 @@ assign_flag_location() {
 # Note: During this first pass, I will only focus on creating the
 # first printed grid. (Not updating the grid.)
 print_grid() {
-	print_grid_array=()
+	alpha_row_string=""
 	first_row_string=""
+	print_grid_array=()
+
+	# for letter in {A..Z} ; do
+	# 	echo "$letter"
+	# done
+
+	printf "\x$(printf %x 65)"
 
 	for ((fr_counter=0; fr_counter<((${row_number}+1)); fr_counter++))
 	do
