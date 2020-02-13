@@ -117,14 +117,21 @@ assign_flag_location() {
 # first printed grid. (Not updating the grid.)
 print_grid() {
 	alpha_row_string=""
+	oct_char_start_number=112
 	first_row_string=""
 	print_grid_array=()
 
-	# for letter in {A..Z} ; do
-	# 	echo "$letter"
-	# done
+	# printf "\x$(printf %x 65)"
+	printf '\112'
+	echo $'\112'
 
-	printf "\x$(printf %x 65)"
+	# https://stackoverflow.com/questions/29378566/i-just-assigned-a-variable-but-echo-variable-shows-something-else
+	for ((ars_counter=0; ars_counter<${row_number}; ars_counter++))
+	do
+		oct_char_number=$(( oct_char_start_number + ars_counter ))
+		echo $'\''${oct_char_number}''
+		# printf '\${oct_char_number}'
+	done
 
 	for ((fr_counter=0; fr_counter<((${row_number}+1)); fr_counter++))
 	do
