@@ -116,22 +116,22 @@ assign_flag_location() {
 # Note: During this first pass, I will only focus on creating the
 # first printed grid. (Not updating the grid.)
 print_grid() {
-	alpha_row_string=""
-	oct_char_start_number=112
+	alpha_column_string=""
+	alpha_start_number=65 # In decimal
 	first_row_string=""
 	print_grid_array=()
 
-	# printf "\x$(printf %x 65)"
-	printf '\112'
-	echo $'\112'
-
-	# https://stackoverflow.com/questions/29378566/i-just-assigned-a-variable-but-echo-variable-shows-something-else
-	for ((ars_counter=0; ars_counter<${row_number}; ars_counter++))
+	# https://stackoverflow.com/questions/12855610/shell-script-is-there-any-way-converting-number-to-char
+	for ((acs_counter=0; acs_counter<${row_number}; acs_counter++))
 	do
-		oct_char_number=$(( oct_char_start_number + ars_counter ))
-		echo $'\''${oct_char_number}''
-		# printf '\${oct_char_number}'
+		alpha_char_number=$(( alpha_start_number + acs_counter ))
+
+		current_char=" "
+		current_char+=$(printf \\$(printf '%03o' ${alpha_char_number}))
+		alpha_column_string+=${current_char}
 	done
+
+	print_grid_array[0]=${alpha_column_string}
 
 	for ((fr_counter=0; fr_counter<((${row_number}+1)); fr_counter++))
 	do
@@ -145,7 +145,7 @@ print_grid() {
 			first_row_string+="_ "
 		fi
 
-		print_grid_array[0]=$first_row_string
+		print_grid_array[1]=$first_row_string
 
 		for ((ar_counter=0; ar_counter<=${row_number}; ar_counter++))
 		do
@@ -156,7 +156,7 @@ print_grid() {
 				row_string+="_|"
 			fi
 
-			print_grid_array[$fr_counter]=$row_string
+			print_grid_array["$((fr_counter+1))"]=$row_string
 		done
 	done
 }
