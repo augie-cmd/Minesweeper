@@ -1,5 +1,6 @@
 #! /bin/bash
 # FIX: Scope
+# FIX: Repeat code - prit_grid()
 # ADD: check for largest grid size: 26 X 26
 
 ## Handles creating a new grid. Treat as constructor.
@@ -116,12 +117,11 @@ assign_flag_location() {
 # Note: During this first pass, I will only focus on creating the
 # first printed grid. (Not updating the grid.)
 print_grid() {
-	alpha_column_string=""
+	alpha_column_string="  "
 	alpha_start_number=65 # In decimal
 	first_row_string=""
 	print_grid_array=()
 
-	# https://stackoverflow.com/questions/12855610/shell-script-is-there-any-way-converting-number-to-char
 	for ((acs_counter=0; acs_counter<${row_number}; acs_counter++))
 	do
 		alpha_char_number=$(( alpha_start_number + acs_counter ))
@@ -135,23 +135,31 @@ print_grid() {
 
 	for ((fr_counter=0; fr_counter<((${row_number}+1)); fr_counter++))
 	do
-		# Resets row_string.
+		# Resets row_string and current_char.
 		row_string=""
+		current_char=""
 
 		if [[ "$fr_counter" = "0" ]] || [[ "$fr_counter" = "$((row_number+1))" ]]
 		then
-			first_row_string+=" "
+			first_row_string+="   "
 		else
 			first_row_string+="_ "
 		fi
 
 		print_grid_array[1]=$first_row_string
 
+		# FIX: Reassigning variables
+		# FIX: -1 issue
+		alpha_char_number=$(( alpha_start_number + fr_counter - 1 ))
+
+		current_char=$(printf \\$(printf '%03o' ${alpha_char_number}))
+		row_string+="${current_char}"
+
 		for ((ar_counter=0; ar_counter<=${row_number}; ar_counter++))
 		do
 			if [[ "$ar_counter" = "0" ]]
 			then
-				row_string+="|"
+				row_string+=" |"
 			else
 				row_string+="_|"
 			fi
