@@ -28,32 +28,38 @@ generate_grid() {
 }
 
 calculate_number_of_mines() {
-	# The total number of mines depends on the level
-	# and size of field.
-	total_grid_locations=$(( row_number * column_number ))
-
-	# ADD: Arithmetic helper function.
 	case "$level" in
 		1 )
 			# Level 1: 10% of the field will contain mines.
-			local number_of_mines_float=`echo "$total_grid_locations*0.1" | bc`
+			calculate_number_of_mines_arithmetic "0.1"
 			;;
 		2 )
 			# Level 2: 20% of the field will contain mines.
-			local number_of_mines_float=`echo "$total_grid_locations*0.20" | bc`
+			calculate_number_of_mines_arithmetic "0.2"
 			;;
 		3 )
 			# Level 3: 30% of the field will contain mines.
-			local number_of_mines_float=`echo "$total_grid_locations*0.30" | bc`
+			calculate_number_of_mines_arithmetic "0.3"
 			;;
 		* )
-			echo "Invalid level."
+			echo "Invalid level." #ADD: Throw error.
 			;;
 		esac
+}
 
+calculate_number_of_mines_arithmetic() {
+	local percentage=$1
 
+	# The total number of mines depends on the level
+	# and size of field.
+	local total_grid_locations=$(( row_number * column_number ))
+
+	local number_of_mines_float=`echo "$total_grid_locations*$percentage" | bc`
+
+	# Converts float to integer.
 	number_of_mines=${number_of_mines_float%.*}
 }
+
 
 assign_mine_location() {
 	# ADD: Duplicate coordinate check
@@ -132,7 +138,7 @@ print_grid() {
 
 	print_grid_array[0]=${alpha_column_string}
 
-	for ((test_counter=0; test_counter<${row_number}; test_counter++))
+	for ((test_counter=0; test_counter<((${row_number}+1)); test_counter++))
 	do
 		if [[ "$test_counter" = "0" ]] || [[ "$test_counter" = "$((row_number+1))" ]]
 		then
@@ -144,7 +150,7 @@ print_grid() {
 
 	print_grid_array[1]=$first_row_string
 
-	for ((fr_counter=0; fr_counter<((${column_number}+1)); fr_counter++))
+	for ((fr_counter=0; fr_counter<((${column_number})); fr_counter++))
 	do
 		# Resets row_string and current_char.
 		row_string=""
