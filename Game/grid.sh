@@ -1,6 +1,6 @@
 #! /bin/bash
 # FIX: Scope
-# FIX: Repeat code - prit_grid()
+# FIX: Repeat code - print_grid()
 # ADD: check for largest grid size: 26 X 26
 
 ## Handles creating a new grid. Treat as constructor.
@@ -28,44 +28,43 @@ generate_grid() {
 }
 
 calculate_number_of_mines() {
-	# Number of mines are based on row_number,
-	# column_number, and level.
-	# Level based on (grid size : mine)
+	# The total number of mines depends on the level
+	# and size of field.
 	total_grid_locations=$(( row_number * column_number ))
 
-	# NOTE: Update to CASE statement later.
 	# ADD: Arithmetic helper function.
-	if [ "$level" = 1 ]; then
-		local number_of_mines_float=`echo "$total_grid_locations*0.1" | bc`
-	elif [ "$level" = 2 ]; then
-		local number_of_mines_float=`echo "$total_grid_locations*0.20" | bc`
-	elif [ "$level" = 3 ]; then
-		local number_of_mines_float=`echo "$total_grid_locations*0.30" | bc`
-	fi
+	case "$level" in
+		1 )
+			# Level 1: 10% of the field will contain mines.
+			local number_of_mines_float=`echo "$total_grid_locations*0.1" | bc`
+			;;
+		2 )
+			# Level 2: 20% of the field will contain mines.
+			local number_of_mines_float=`echo "$total_grid_locations*0.20" | bc`
+			;;
+		3 )
+			# Level 3: 30% of the field will contain mines.
+			local number_of_mines_float=`echo "$total_grid_locations*0.30" | bc`
+			;;
+		* )
+			echo "Invalid level."
+			;;
+		esac
+
 
 	number_of_mines=${number_of_mines_float%.*}
 }
 
 assign_mine_location() {
-	# mine_location_array will contain the coordinates
-	# of the mines. Using string separated by comma to
-	# record location for now.
+	# ADD: Duplicate coordinate check
 
-	# declare -a mine_location_array ## Causes mine_location_array
-	# to be local. Adding -g works but also raises invalid option error.
-	# Creating mine_location_array w/o declare so assign_flag_location()
-	# can access it for now.
-
+	# Stores coordinates as strings seperated by ','.
 	mine_location_array=()
 
 	for ((aml_counter=0; aml_counter<$number_of_mines; aml_counter++))
 	do
 		local random_number_row=$RANDOM
-		# ADD: Check if row is still available, retrieve
-		# new random number if not available
 		local random_number_column=$RANDOM
-		# ADD: Check if column is still available, retrieve
-		# new random number if not available
 
 		local random_row=$(( random_number_row %= row_number))
 		local random_column=$(( random_number_column %= column_number))
@@ -133,24 +132,27 @@ print_grid() {
 
 	print_grid_array[0]=${alpha_column_string}
 
-	for ((fr_counter=0; fr_counter<((${row_number}+1)); fr_counter++))
+	for ((test_counter=0; test_counter<${row_number}; test_counter++))
 	do
-		# Resets row_string and current_char.
-		row_string=""
-		current_char=""
-
-		if [[ "$fr_counter" = "0" ]] || [[ "$fr_counter" = "$((row_number+1))" ]]
+		if [[ "$test_counter" = "0" ]] || [[ "$test_counter" = "$((row_number+1))" ]]
 		then
 			first_row_string+="   "
 		else
 			first_row_string+="_ "
 		fi
+	done
 
-		print_grid_array[1]=$first_row_string
+	print_grid_array[1]=$first_row_string
+
+	for ((fr_counter=0; fr_counter<((${column_number}+1)); fr_counter++))
+	do
+		# Resets row_string and current_char.
+		row_string=""
+		current_char=""
 
 		# FIX: Reassigning variables
 		# FIX: -1 issue
-		alpha_char_number=$(( alpha_start_number + fr_counter - 1 ))
+		alpha_char_number=$(( alpha_start_number + fr_counter ))
 
 		current_char=$(printf \\$(printf '%03o' ${alpha_char_number}))
 		row_string+="${current_char}"
@@ -164,7 +166,7 @@ print_grid() {
 				row_string+="_|"
 			fi
 
-			print_grid_array["$((fr_counter+1))"]=$row_string
+			print_grid_array["$((fr_counter+2))"]=$row_string
 		done
 	done
 }
