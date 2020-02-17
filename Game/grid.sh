@@ -69,13 +69,26 @@ assign_mine_location() {
 
 	for ((aml_counter=0; aml_counter<$number_of_mines; aml_counter++))
 	do
+		# Add reset to inner for loop counter?
 		local random_number_row=$RANDOM
 		local random_number_column=$RANDOM
 
 		local random_row=$(( random_number_row %= row_number))
 		local random_column=$(( random_number_column %= column_number))
 
-		mine_location="${random_row},${random_column}"
+		local mine_location="${random_row},${random_column}"
+
+		echo "current: $mine_location"
+		# ADD: string comparison
+		for ((iaml_counter=0; iaml_counter<${#mine_location_array[@]}; iaml_counter++))
+		do
+			if [[ "$mine_location" == "$mine_location_array[$iaml_counter]" ]]
+			then
+				echo "match: $mine_location_array[aml_counter]"
+				echo "strings are equal"
+			fi
+		done
+		# END ADD: string comparison
 
 		mine_location_array[$aml_counter]=$mine_location
 	done
