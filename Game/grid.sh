@@ -78,20 +78,31 @@ assign_mine_location() {
 
 		local mine_location="${random_row},${random_column}"
 
+		# REMOVE
 		echo "current: $mine_location"
+		echo "${mine_location_array[$iaml_counter]}"
+		# REMOVE
+
 		# ADD: string comparison
 		for ((iaml_counter=0; iaml_counter<${#mine_location_array[@]}; iaml_counter++))
 		do
-			if [[ "$mine_location" == "$mine_location_array[$iaml_counter]" ]]
+			if [[ "$mine_location" = "${mine_location_array[$iaml_counter]}" ]]
 			then
-				echo "match: $mine_location_array[aml_counter]"
+				# REMOVE
+				echo "match: ${mine_location_array[$iaml_counter]}"
 				echo "strings are equal"
+				# REMOVE
+
+				((aml_counter-=1))
 			fi
 		done
 		# END ADD: string comparison
+		echo "aml_counter: $aml_counter"
 
 		mine_location_array[$aml_counter]=$mine_location
 	done
+
+	echo "${mine_location_array[@]}"
 }
 
 assign_flag_location() {
