@@ -79,8 +79,8 @@ assign_mine_location() {
 		local mine_location="${random_row},${random_column}"
 
 		# REMOVE
-		echo "current: $mine_location"
-		echo "${mine_location_array[$iaml_counter]}"
+		echo "current mine location: $mine_location"
+		echo "aml_counter [before]: $aml_counter"
 		# REMOVE
 
 		# ADD: string comparison
@@ -93,12 +93,13 @@ assign_mine_location() {
 				echo "strings are equal"
 				# REMOVE
 
-				((aml_counter-=1))
+				# Can I restart the loop from the beginning if duplicate is found?
+				# Make helper function containing all rand logic and check duplicates.
+				# Note: Edge case - last coordinate is duplicate
 			fi
 		done
-		# END ADD: string comparison
-		echo "aml_counter: $aml_counter"
 
+		echo "aml_counter [after]: $aml_counter"
 		mine_location_array[$aml_counter]=$mine_location
 	done
 
