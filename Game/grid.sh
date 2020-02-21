@@ -73,8 +73,8 @@ assign_mine_location() {
 		local random_number_row=$RANDOM
 		local random_number_column=$RANDOM
 
-		local random_row=$(( random_number_row %= row_number))
-		local random_column=$(( random_number_column %= column_number))
+		local random_row=$(( random_number_row %= row_number ))
+		local random_column=$(( random_number_column %= column_number ))
 
 		local mine_location="${random_row},${random_column}"
 
@@ -84,7 +84,7 @@ assign_mine_location() {
 		# REMOVE
 
 		# ADD: string comparison
-		for ((iaml_counter=0; iaml_counter<${#mine_location_array[@]}; iaml_counter++))
+		for ((iaml_counter=0; iaml_counter<${#mine_location_array[@]}; iaml_counter++)) # Add = for edge case
 		do
 			if [[ "$mine_location" = "${mine_location_array[$iaml_counter]}" ]]
 			then
@@ -93,14 +93,22 @@ assign_mine_location() {
 				echo "strings are equal"
 				# REMOVE
 
-				# Can I restart the loop from the beginning if duplicate is found?
-				# Make helper function containing all rand logic and check duplicates.
-				# Note: Edge case - last coordinate is duplicate
+				match_bool=true
+			else
+				match_bool=false
 			fi
 		done
 
-		echo "aml_counter [after]: $aml_counter"
 		mine_location_array[$aml_counter]=$mine_location
+
+		if [[ "$match_bool" = true ]]
+		then
+			echo "$match_bool"
+			((aml_counter-=1))
+		fi
+
+		echo "$match_bool"
+		echo "aml_counter [after]: $aml_counter"
 	done
 
 	echo "${mine_location_array[@]}"
