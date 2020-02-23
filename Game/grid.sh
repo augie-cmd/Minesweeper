@@ -68,13 +68,7 @@ assign_mine_location() {
 
 	for ((aml_counter=0; aml_counter<$number_of_mines; aml_counter++))
 	do
-		local random_number_row=$RANDOM
-		local random_number_column=$RANDOM
-
-		local random_row=$(( random_number_row %= row_number ))
-		local random_column=$(( random_number_column %= column_number ))
-
-		local mine_location="${random_row},${random_column}"
+		assign_mine_location_arithmetic
 
 		for ((iaml_counter=0; iaml_counter<${#mine_location_array[@]}; iaml_counter++))
 		do
@@ -98,8 +92,18 @@ assign_mine_location() {
 			((aml_counter-=1))
 		fi
 	done
+}
 
-	echo "${mine_location_array[@]}"
+assign_mine_location_arithmetic() {
+	# Two random numbers are generated.
+	local random_number_row=$RANDOM
+	local random_number_column=$RANDOM
+
+	# Calculates random number in row and column range.
+	local random_row=$(( random_number_row %= row_number ))
+	local random_column=$(( random_number_column %= column_number ))
+
+	mine_location="${random_row},${random_column}"
 }
 
 assign_flag_location() {
