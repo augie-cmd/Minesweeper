@@ -2,6 +2,7 @@
 # FIX: Scope
 # FIX: Repeat code - print_grid()
 # ADD: check for largest grid size: 26 X 26
+# FIX: Counters local?
 
 ## Handles creating a new grid. Treat as constructor.
 generate_grid() {
@@ -62,14 +63,11 @@ calculate_number_of_mines_arithmetic() {
 
 
 assign_mine_location() {
-	# ADD: Duplicate coordinate check
-
 	# Stores coordinates as strings seperated by ','.
 	mine_location_array=()
 
 	for ((aml_counter=0; aml_counter<$number_of_mines; aml_counter++))
 	do
-		# Add reset to inner for loop counter?
 		local random_number_row=$RANDOM
 		local random_number_column=$RANDOM
 
@@ -78,22 +76,12 @@ assign_mine_location() {
 
 		local mine_location="${random_row},${random_column}"
 
-		# REMOVE
-		echo "current mine location: $mine_location"
-		echo "aml_counter [before]: $aml_counter"
-		# REMOVE
-
-		# ADD: string comparison
-		for ((iaml_counter=0; iaml_counter<${#mine_location_array[@]}; iaml_counter++)) # Add = for edge case
+		for ((iaml_counter=0; iaml_counter<${#mine_location_array[@]}; iaml_counter++))
 		do
 			if [[ "$mine_location" = "${mine_location_array[$iaml_counter]}" ]]
 			then
-				# REMOVE
-				echo "match: ${mine_location_array[$iaml_counter]}"
-				echo "strings are equal"
-				# REMOVE
-
 				match_bool=true
+				break
 			else
 				match_bool=false
 			fi
@@ -101,14 +89,14 @@ assign_mine_location() {
 
 		mine_location_array[$aml_counter]=$mine_location
 
+		# Next iteration will replace duplicate coordinate.
+		# NOTE: This solution becomes slow if the same duplicate
+		# is generated several times in a row.
+		# This is not an issue in practice but worth mentioning.
 		if [[ "$match_bool" = true ]]
 		then
-			echo "$match_bool"
 			((aml_counter-=1))
 		fi
-
-		echo "$match_bool"
-		echo "aml_counter [after]: $aml_counter"
 	done
 
 	echo "${mine_location_array[@]}"
