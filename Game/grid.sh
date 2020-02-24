@@ -112,14 +112,11 @@ assign_flag_location() {
 	local values_array=("-1,-1" "-1,0" "-1,1" "0,-1" "0,1" "1,-1" "1,0" "1,1")
 	flag_location_array=()
 
-	# FIX: Nonexistent locations may be added.
 	for ((afl_counter=0; afl_counter<${#mine_location_array[@]}; afl_counter++))
 	do
 		local current_mine_location=${mine_location_array[$afl_counter]}
-		# echo "$current_mine_location"
 
-		# Split mine coordinate into row and column and push into
-		# array.
+		# Split mine coordinate into row and column and push into array.
 		IFS=',' read -ra current_mine_location_array <<< "$current_mine_location"
 
 		mine_location_x=current_mine_location_array[0]
@@ -137,10 +134,15 @@ assign_flag_location() {
 			flag_location_x=$((mine_location_x+value_x))
 			flag_location_y=$((mine_location_y+value_y))
 
-			array_index=${#flag_location_array[@]}
-			flag_location_array[$array_index]="${flag_location_x},${flag_location_y}"
+			# Eliminates invalid flag coordinates.
+			if [[ "$flag_location_x" > 0 ]] && [[ "$flag_location_x" -le "$row_number" ]] && [[ "$flag_location_y" > 0 ]] && [[ "$flag_location_y" -le "$column_number" ]]
+			then
+				array_index=${#flag_location_array[@]}
+				flag_location_array[$array_index]="${flag_location_x},${flag_location_y}"
+			fi
 		done
 	done
+	echo "${flag_location_array[@]}"
 }
 
 # Generates the grid that the user will see.
