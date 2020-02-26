@@ -177,8 +177,6 @@ print_grid() {
 		row_string=""
 		current_char=""
 
-		# FIX: Reassigning variables
-		# FIX: -1 issue
 		alpha_char_number=$(( alpha_start_number + fr_counter ))
 
 		current_char=$(printf \\$(printf '%03o' ${alpha_char_number}))
