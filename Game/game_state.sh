@@ -1,17 +1,18 @@
 #! /bin/bash
 
-# . ./grid.sh --source_only
+. ./grid.sh --source_only
 # . ./move.sh --source_only
 
 ## Responds to game's kickoff by generating
 ## a new grid, printing the grid to the screen,
 ## and calling continue(...) moving the game into
 ## the next state.
-# new(row_number, column_number, level) {
+# https://stackoverflow.com/questions/12815774/importing-functions-from-a-shell-script
+new() {
 	# current_grid=grid.generate_grid()
-	# grid.print_grid()
+	export_print_grid
 	# continue(current_grid)
-# }
+}
 
 # continue(current_grid) {
 	# move.next_move()

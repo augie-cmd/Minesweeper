@@ -142,7 +142,6 @@ assign_flag_location() {
 			fi
 		done
 	done
-	echo "${flag_location_array[@]}"
 }
 
 # Generates the grid that the user will see.
@@ -202,4 +201,4 @@ print_grid() {
 	done
 }
 
-generate_grid "10" "15" "1"
+# generate_grid "10" "15" "1"
