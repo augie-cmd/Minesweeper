@@ -200,5 +200,3 @@ print_grid() {
 		done
 	done
 }
-
-# generate_grid "10" "15" "1"

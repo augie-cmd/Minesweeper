@@ -1,25 +1,23 @@
 #! /bin/bash
-
+# source ./grid.sh
 . ./grid.sh --source_only
-# . ./move.sh --source_only
+. ./move.sh --source_only
 
 ## Responds to game's kickoff by generating
 ## a new grid, printing the grid to the screen,
 ## and calling continue(...) moving the game into
 ## the next state.
-# https://stackoverflow.com/questions/12815774/importing-functions-from-a-shell-script
 new() {
 	# current_grid=grid.generate_grid()
-	export_print_grid
-	# continue(current_grid)
+	generate_grid "10" "15" "1"
+	continue
 }
 
-# continue(current_grid) {
-	# move.next_move()
-
+continue() {
 	# How to delegate moves? (add flag vs.
 	# uncover)
-# }
+	next_move
+}
 
 ## Checks if game is lost. (Was a mine
 ## uncovered?)
@@ -61,3 +59,5 @@ new() {
                 # SIGINT OR SIGKILL process
         # fi
 # }
+
+new
