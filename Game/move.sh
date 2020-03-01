@@ -1,4 +1,4 @@
-#! /bin/bash/
+#! /bin/bash
 
 # . ./game_state.sh --source_only
 # . ./grid.sh --source_only
@@ -24,25 +24,36 @@ next_move() {
 		esac
 }
 
-read_row() {
-	echo "Enter row (x):"
+read_coordinates() {
+	echo "Enter row:"
 	read row
-	echo "Enter column (y):"
+	row_int=$(convert_alpha_to_int "$row")
+
+	echo "Enter column:"
 	read column
+	column_int=$(convert_alpha_to_int "$column")
+}
+
+convert_alpha_to_int() {
+	alpha_char=$1
+	test_covert=$(printf $(printf '%d' "'$alpha_char"))
+
+	echo "$test_covert"
 }
 
 place_flag() {
 	## Place flag on grid unless location
 	## already has a flag or is uncovered.
 	## How? Unsure. (Color - display issue)
-	read_row
+	read_coordinates
 
 	# ADD: Invalid flag placement check
+	# Convert alpha to int
 	# Add flag to grid printed to screen
 }
 
 uncover() {
-	read_row
+	read_coordinates
 
 	# uncover_location_on_print_grid(row, column)
 
@@ -54,3 +65,5 @@ uncover() {
 	# if num > 0, reveal single location
 	# continue/new_move
 }
+
+# convert_alpha_to_int "a"

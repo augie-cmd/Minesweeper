@@ -158,6 +158,7 @@ print_grid() {
 		alpha_char_number=$(( alpha_start_number + acs_counter ))
 
 		current_char=" "
+		# ADD: Trim statement?
 		current_char+=$(printf \\$(printf '%03o' ${alpha_char_number}))
 		alpha_column_string+=${current_char}
 	done
