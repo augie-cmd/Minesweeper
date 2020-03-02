@@ -201,3 +201,13 @@ print_grid() {
 		done
 	done
 }
+
+add_flag() {
+	flag_row="$1"
+	flag_column="$2"
+
+	echo "$flag_row"
+	echo "$flag_column"
+
+	# place flag
+}

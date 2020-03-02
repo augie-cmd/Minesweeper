@@ -1,7 +1,8 @@
 #! /bin/bash
+# ADD: Lowercase detection and conversion (ASCII)
 
 # . ./game_state.sh --source_only
-# . ./grid.sh --source_only
+. ./grid.sh --source_only
 
 # Player has two options (if not win or lose:
 # uncover or add a flag to coordinate entered.
@@ -20,6 +21,7 @@ next_move() {
 			;;
 		* )
 			echo "Invalid selection."
+			# continue_game
 			;;
 		esac
 }
@@ -36,9 +38,10 @@ read_coordinates() {
 
 convert_alpha_to_int() {
 	alpha_char=$1
-	test_covert=$(printf $(printf '%d' "'$alpha_char"))
+	alpha_convert=$(printf $(printf '%d' "'$alpha_char"))
+	alpha_corr=$((${alpha_convert}-65))
 
-	echo "$test_covert"
+	echo "$alpha_corr"
 }
 
 place_flag() {
@@ -47,9 +50,13 @@ place_flag() {
 	## How? Unsure. (Color - display issue)
 	read_coordinates
 
+	add_flag "$row_int" "$column_int"
+
 	# ADD: Invalid flag placement check
-	# Convert alpha to int
 	# Add flag to grid printed to screen
+	# NOTE: Will assume incoming letters are upcase.
+	# 1. Find coordinates
+	# 2. Add flag
 }
 
 uncover() {
@@ -65,5 +72,3 @@ uncover() {
 	# if num > 0, reveal single location
 	# continue/new_move
 }
-
-# convert_alpha_to_int "a"
