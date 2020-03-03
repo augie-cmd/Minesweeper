@@ -12,7 +12,9 @@ generate_grid() {
 	readonly level=$3
 
 	## ADD: grid_array readonly, if possible (after populated)
+	# grid_array will contain flag, mine, and number information.
 	declare -a grid_array
+	declare -a flag_array
 
 	calculate_number_of_mines
 
@@ -202,12 +204,30 @@ print_grid() {
 	done
 }
 
-add_flag() {
+add_to_flag_array() {
 	flag_row="$1"
 	flag_column="$2"
 
 	echo "$flag_row"
 	echo "$flag_column"
 
-	# place flag
+	if [[ "${#flag_array[@]}" = "0" ]]
+	then
+		flag_array[0]="$flag_row,$flag_column"
+	else
+		# NOTE: untested.
+		flag_array["$((${#flag_array[@]}+1))"]="$flag_row,$flag_column"
+	fi
+
+	echo "${flag_array[@]}"
+
+	# generate_grid_array
+}
+
+# grid_array contains the 'internal' grid information.
+generate_grid_array() {
+	echo "start working here."
+	# 1. Add numbers
+	# 2. Add mines
+	# 3. Add flags
 }

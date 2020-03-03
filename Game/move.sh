@@ -5,7 +5,7 @@
 . ./grid.sh --source_only
 
 # Player has two options (if not win or lose:
-# uncover or add a flag to coordinate entered.
+# uncover or add a flag to coordinate entered.)
 
 next_move() {
 	echo "Select 1 or 2"
@@ -21,7 +21,7 @@ next_move() {
 			;;
 		* )
 			echo "Invalid selection."
-			# continue_game
+			continue_game
 			;;
 		esac
 }
@@ -50,7 +50,9 @@ place_flag() {
 	## How? Unsure. (Color - display issue)
 	read_coordinates
 
-	add_flag "$row_int" "$column_int"
+	add_to_flag_array "$row_int" "$column_int"
+
+	continue_game
 
 	# ADD: Invalid flag placement check
 	# Add flag to grid printed to screen
@@ -61,6 +63,8 @@ place_flag() {
 
 uncover() {
 	read_coordinates
+
+	continue_game
 
 	# uncover_location_on_print_grid(row, column)
 

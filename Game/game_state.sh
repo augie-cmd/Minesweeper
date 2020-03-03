@@ -10,10 +10,10 @@
 new() {
 	# current_grid=grid.generate_grid()
 	generate_grid "10" "15" "1"
-	continue
+	continue_game
 }
 
-continue() {
+continue_game() {
 	# How to delegate moves? (add flag vs.
 	# uncover)
 	next_move
