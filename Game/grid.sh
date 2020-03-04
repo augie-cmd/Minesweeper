@@ -11,10 +11,14 @@ generate_grid() {
 	readonly column_number=$2
 	readonly level=$3
 
-	## ADD: grid_array readonly, if possible (after populated)
-	# grid_array will contain flag, mine, and number information.
-	declare -a grid_array
-	declare -a flag_array
+	## ADD: hidden_grid_array readonly, if possible (after populated)
+	# hidden_grid_array will contain flag, mine, and number information.
+	declare -a hidden_grid_array # Contains hidden field
+	declare -a flag_array # Only display on player's grid
+	declare -a print_grid_array # Display to terminal grid
+	# Stores coordinates as strings seperated by ','.
+	declare -a mine_location_array
+	declare -a clue_location_array
 
 	calculate_number_of_mines
 
@@ -65,9 +69,6 @@ calculate_number_of_mines_arithmetic() {
 
 
 assign_mine_location() {
-	# Stores coordinates as strings seperated by ','.
-	mine_location_array=()
-
 	for ((aml_counter=0; aml_counter<$number_of_mines; aml_counter++))
 	do
 		assign_mine_location_arithmetic
@@ -112,7 +113,6 @@ assign_flag_location() {
 	# Flag location is dependent on mine location.
 	local current_mine_location_array=()
 	local values_array=("-1,-1" "-1,0" "-1,1" "0,-1" "0,1" "1,-1" "1,0" "1,1")
-	flag_location_array=()
 
 	for ((afl_counter=0; afl_counter<${#mine_location_array[@]}; afl_counter++))
 	do
@@ -139,8 +139,8 @@ assign_flag_location() {
 			# Eliminates invalid flag coordinates.
 			if [[ "$flag_location_x" > 0 ]] && [[ "$flag_location_x" -le "$row_number" ]] && [[ "$flag_location_y" > 0 ]] && [[ "$flag_location_y" -le "$column_number" ]]
 			then
-				array_index=${#flag_location_array[@]}
-				flag_location_array[$array_index]="${flag_location_x},${flag_location_y}"
+				array_index=${#clue_location_array[@]}
+				clue_location_array[$array_index]="${flag_location_x},${flag_location_y}"
 			fi
 		done
 	done
@@ -153,7 +153,6 @@ print_grid() {
 	alpha_column_string="  "
 	alpha_start_number=65 # In decimal
 	first_row_string=""
-	print_grid_array=()
 
 	for ((acs_counter=0; acs_counter<${row_number}; acs_counter++))
 	do
@@ -221,13 +220,30 @@ add_to_flag_array() {
 
 	echo "${flag_array[@]}"
 
-	# generate_grid_array
+	generate_hidden_grid_array
 }
 
 # grid_array contains the 'internal' grid information.
-generate_grid_array() {
-	echo "start working here."
-	# 1. Add numbers
-	# 2. Add mines
-	# 3. Add flags
+generate_hidden_grid_array() {
+	# Create blank hidden grid
+	# hidden_grid_array var
+	for ((ghga_counter=0; ghga_counter<${column_number}; ghga_counter++))
+	do
+		# Reset row_string.
+		row_string=""
+
+		for ((ghga2_counter=0; ghga2_counter<${row_number}; ghga2_counter++))
+		do
+			row_string+="0"
+		done
+
+		# push into hidden array
+		hidden_grid_array[${ghga_counter}]=${row_string}
+	done
+
+	echo "${hidden_grid_array[@]}"
+
+	# Add clues to hidden grid
+
+	# Add mines to hidden grid
 }
