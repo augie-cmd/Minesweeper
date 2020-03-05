@@ -1,5 +1,6 @@
 #! /bin/bash
 # ADD: Lowercase detection and conversion (ASCII)
+# Update all input to uppercase
 
 # . ./game_state.sh --source_only
 . ./grid.sh --source_only

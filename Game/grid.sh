@@ -226,7 +226,6 @@ add_to_flag_array() {
 # grid_array contains the 'internal' grid information.
 generate_hidden_grid_array() {
 	# Create blank hidden grid
-	# hidden_grid_array var
 	for ((ghga_counter=0; ghga_counter<${column_number}; ghga_counter++))
 	do
 		# Reset row_string.
@@ -241,9 +240,21 @@ generate_hidden_grid_array() {
 		hidden_grid_array[${ghga_counter}]=${row_string}
 	done
 
-	echo "${hidden_grid_array[@]}"
-
 	# Add clues to hidden grid
+	# clue_location_array
+	for ((ghga3_counter=0; ghga3_counter<${#clue_location_array[@]}; ghga3_counter++))
+	do
+		# parse clue_location_array[ghga3_counter]
+		# -1 from each coordinate
+		# updated_string=hidden_grid_array[ghg3_counter]
+		# https://stackoverflow.com/questions/9318021/change-string-char-at-index-x
+		# clue_location_array[ghga3_counter]=updated_string
+	done
+
+	# Parse clues part
+	# add 1 to each clue listed.
+
+	echo "${hidden_grid_array[@]}"
 
 	# Add mines to hidden grid
 }
