@@ -223,6 +223,13 @@ add_to_flag_array() {
 	generate_hidden_grid_array
 }
 
+coordinates_parser() {
+	coordinates=$1
+
+	echo "$coordinates"
+	echo "Parser up and running."
+}
+
 # grid_array contains the 'internal' grid information.
 generate_hidden_grid_array() {
 	# Create blank hidden grid
@@ -244,7 +251,9 @@ generate_hidden_grid_array() {
 	# clue_location_array
 	for ((ghga3_counter=0; ghga3_counter<${#clue_location_array[@]}; ghga3_counter++))
 	do
+		# NOTE to self: Fell ill over the last few days, unable to work.
 		# parse clue_location_array[ghga3_counter]
+		coordinates_parser "$clue_location_array[$ghga3_counter]"
 		# -1 from each coordinate
 		# updated_string=hidden_grid_array[ghg3_counter]
 		# https://stackoverflow.com/questions/9318021/change-string-char-at-index-x
