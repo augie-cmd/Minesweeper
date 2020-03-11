@@ -226,15 +226,13 @@ add_to_flag_array() {
 coordinates_parser() {
 	coordinates=$1
 
-	# parse coordinates apart.
-	# https://www.thegeekstuff.com/2010/07/bash-string-manipulation/
-	# shortest substring match
+	# Rely on global for now.
+	x_coordinate=${coordinates%,*}
+	y_coordinate=${coordinates#*,}
 
-	echo "${coordinates#*,}"
-	echo "${coordinates%,*}"
-
-	echo "$coordinates"
-	echo "Parser up and running."
+	# Arrays no longer populated. -_-
+	# https://stackoverflow.com/questions/9904980/variable-in-bash-script-that-keeps-it-value-from-the-last-time-running
+	# Add storage file tomorrow.
 }
 
 # grid_array contains the 'internal' grid information.
@@ -250,9 +248,11 @@ generate_hidden_grid_array() {
 			row_string+="0"
 		done
 
-		# push into hidden array
+		# push into hidden arragy
 		hidden_grid_array[${ghga_counter}]=${row_string}
 	done
+
+	coordinates_parser "${clue_location_array[0]}"
 
 	# Add clues to hidden grid
 	# clue_location_array
@@ -264,6 +264,7 @@ generate_hidden_grid_array() {
 		# updated_string=hidden_grid_array[ghg3_counter]
 		# https://stackoverflow.com/questions/9318021/change-string-char-at-index-x
 		# clue_location_array[ghga3_counter]=updated_string
+
 		echo "working"
 	done
 
@@ -274,5 +275,3 @@ generate_hidden_grid_array() {
 
 	# Add mines to hidden grid
 }
-
-coordinates_parser "2,3"
