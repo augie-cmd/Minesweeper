@@ -30,6 +30,8 @@ continue_game() {
 	## else
 		## return ["false"]
 	## if
+
+	# Delete all files in Variables folder.
 # }
 
 

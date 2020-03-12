@@ -233,6 +233,7 @@ coordinates_parser() {
 	# Arrays no longer populated. -_-
 	# https://stackoverflow.com/questions/9904980/variable-in-bash-script-that-keeps-it-value-from-the-last-time-running
 	# Add storage file tomorrow.
+	# I do not think I know enough about bash to complete this project.
 }
 
 # grid_array contains the 'internal' grid information.
@@ -248,7 +249,7 @@ generate_hidden_grid_array() {
 			row_string+="0"
 		done
 
-		# push into hidden arragy
+		# push into hidden array
 		hidden_grid_array[${ghga_counter}]=${row_string}
 	done
 
